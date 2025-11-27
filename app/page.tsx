@@ -1,61 +1,77 @@
-import Image from 'next/image'
-import { socialLinks } from './lib/config'
+import { SiBuymeacoffee, SiKofi } from 'react-icons/si'
+
+import { formatDate, getBlogPosts } from 'app/lib/posts'
+import CustomLink from './components/ui/CustomLink'
+import { ProfileIntroduction } from './lib/constants'
 
 export default function Page() {
+  let allBlogs = getBlogPosts()
+
   return (
     <section>
-      <a href={socialLinks.twitter} target='_blank'>
-        <Image
-          src='/profile.png'
-          alt='Profile photo'
-          className='rounded-full bg-gray-100 block lg:mt-5 mt-0 lg:mb-5 mb-10 mx-auto sm:float-right sm:ml-5 sm:mb-5 grayscale hover:grayscale-0'
-          unoptimized
-          width={160}
-          height={160}
-          priority
-        />
-      </a>
-      <h1 className='mb-8 text-2xl font-medium'>Portfolio template!</h1>
-      <div className='prose prose-neutral dark:prose-invert'>
+      <h1 className='text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
+        Nosekiri
+      </h1>
+      <div className='prose prose-neutral dark:prose-invert mb-8'>
         <p>
-          A clean, fast, and lightweight portfolio template built with Next.js, Vercel, and Tailwind
-          CSS.
+          {ProfileIntroduction.map((line, index) => (
+            <span key={index}>
+              {line.bold && <span className='font-bold'>{line.bold}</span>} {line.rest}
+              <br />
+            </span>
+          ))}
         </p>
-        <p>
-          Nextfolio has everything you need for a portfolio: MDX blog, SEO, RSS, Atom & JSON feeds,
-          analytics, Tweet & YouTube embeds, KaTeX and {''}
-          <a
-            target='_blank'
-            href='https://github.com/1msirius/Nextfolio?tab=readme-ov-file#features'
-          >
-            more
-          </a>
-          .
-        </p>
-        <p>
-          Nextfolio is{' '}
-          <a href={socialLinks.github} target='_blank'>
-            open-source
-          </a>{' '}
-          and fully customizable, making it easy to add more features.
-        </p>
-        <p>
-          <a
-            href='https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F1msirius%2FNextfolio'
-            target='_blank'
-          >
-            Deploy
-          </a>{' '}
-          your Nextfolio site with Vercel in minutes and follow the set up instructions in the{' '}
-          <a href='/blog/getting-started'>Getting Started</a> post.
-        </p>
-        <p>
-          Built and maintained by{' '}
-          <a href='https://imsirius.xyz/' target='_blank'>
-            Sirius
-          </a>
-          .
-        </p>
+        <div className='border-dashed border-t border-[#27272a] pb-4' />
+        <div>
+          <h1 className='mb-4 text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
+            Blog Posts
+          </h1>
+          {allBlogs
+            .filter((post) => post.metadata.published !== 'false')
+            .sort((a, b) => {
+              if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+                return -1
+              }
+              return 1
+            })
+            .map((post) => (
+              <CustomLink
+                key={post.slug}
+                className='flex flex-col space-y-1 mb-2 transition-opacity duration-200 hover:opacity-80  no-underline'
+                href={`/blog/${post.slug}`}
+              >
+                <div className='w-full flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2'>
+                  <span className='text-black dark:text-white'>{post.metadata.title}</span>
+                  <span className='text-neutral-600 dark:text-neutral-400 tabular-nums text-sm'>
+                    {formatDate(post.metadata.publishedAt, false)}
+                  </span>
+                </div>
+              </CustomLink>
+            ))}
+        </div>
+        <div className='border-dashed border-t border-[#27272a] my-4' />
+        <div>
+          <h1 className='mb-4 text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
+            Support?
+          </h1>
+          <div className='flex flex-row gap-2'>
+            <CustomLink
+              href='https://ko-fi.com/nakirium'
+              className='inline-flex items-center gap-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 shadow-md dark:text-neutral-400 text-neutral-600 px-3 py-2 no-underline hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors'
+            >
+              <SiKofi className='w-4 h-4' />
+              <span>Ko-fi</span>
+            </CustomLink>
+
+            <CustomLink
+              href='https://buymeacoffee.com/nakirium'
+              className='inline-flex items-center gap-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 shadow-md dark:text-neutral-400 text-neutral-600 px-3 py-2 no-underline hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors'
+            >
+              <SiBuymeacoffee className='w-4 h-4' />
+              <span>Buy Me a Coffee</span>
+            </CustomLink>
+          </div>
+        </div>
       </div>
     </section>
   )

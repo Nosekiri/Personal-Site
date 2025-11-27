@@ -11,6 +11,7 @@
 
 /* Light theme colors */
 :root {
+  background-color: #c9cfd1;
   --sh-class: #2d5e9d;
   --sh-identifier: #354150;
   --sh-sign: #8996a3;

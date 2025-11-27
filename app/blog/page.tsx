@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import { formatDate, getBlogPosts } from 'app/lib/posts'
+import CustomLink from '../components/ui/CustomLink'
 
 export const metadata = {
   title: 'Blog',
-  description: 'Nextfolio Blog'
+  description: 'Personal Blog'
 }
 
 export default function BlogPosts() {
@@ -11,9 +11,10 @@ export default function BlogPosts() {
 
   return (
     <section>
-      <h1 className='mb-8 text-2xl font-medium'>Our Blog</h1>
+      <h1 className='mb-4 text-2xl font-medium'>Blog Posts</h1>
       <div>
         {allBlogs
+          .filter((post) => post.metadata.published !== 'false')
           .sort((a, b) => {
             if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
               return -1
@@ -21,7 +22,7 @@ export default function BlogPosts() {
             return 1
           })
           .map((post) => (
-            <Link
+            <CustomLink
               key={post.slug}
               className='flex flex-col space-y-1 mb-5 transition-opacity duration-200 hover:opacity-80'
               href={`/blog/${post.slug}`}
@@ -32,7 +33,7 @@ export default function BlogPosts() {
                   {formatDate(post.metadata.publishedAt, false)}
                 </p>
               </div>
-            </Link>
+            </CustomLink>
           ))}
       </div>
     </section>

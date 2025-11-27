@@ -5,7 +5,6 @@ import { Navbar } from './components/shared/navbar/nav'
 import { ThemeProvider } from './components/shared/navbar/theme-switch'
 import { metaData } from './lib/config'
 import Footer from './components/shared/footer/footer'
-import { Analytics } from './components/shared/analytics'
 import { SizeIndicator } from './components/shared/sizeIndicator'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -54,18 +53,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel='alternate' type='application/atom+xml' href='/atom.xml' title='Atom Feed' />
         <link rel='alternate' type='application/feed+json' href='/feed.json' title='JSON Feed' />
       </head>
-      <body className='antialiased flex flex-col items-center justify-center mx-auto mt-2 lg:mt-8 mb-12'>
+      <body className='pt-12 antialiased flex flex-col items-center justify-center mx-auto mb-12'>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >
-          <main className='flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[624px] w-full'>
+          <main className='flex-auto min-w-0 flex flex-col px-6 sm:px-4 md:px-0 max-w-[624px] w-full pt-1'>
             <Navbar />
             {children}
             <Footer />
-            <Analytics />
             <SizeIndicator />
           </main>
         </ThemeProvider>

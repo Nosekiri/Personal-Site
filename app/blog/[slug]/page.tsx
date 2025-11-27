@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/lib/posts'
 import { metaData } from 'app/lib/config'
+import { CustomMDX } from '@/app/components/mdx/mdx'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -19,7 +19,13 @@ export async function generateMetadata({ params }): Promise<Metadata | undefined
     return
   }
 
-  let { title, publishedAt: publishedTime, summary: description, image } = post.metadata
+  let {
+    title,
+    publishedAt: publishedTime,
+    lastUpdated,
+    summary: description,
+    image
+  } = post.metadata
   let ogImage = image ? image : `${metaData.baseUrl}/og?title=${encodeURIComponent(title)}`
 
   return {
@@ -30,6 +36,7 @@ export async function generateMetadata({ params }): Promise<Metadata | undefined
       description,
       type: 'article',
       publishedTime,
+      modifiedTime: lastUpdated || publishedTime,
       url: `${metaData.baseUrl}/blog/${post.slug}`,
       images: [
         {
@@ -50,7 +57,7 @@ export default async function Blog({ params }) {
   const { slug } = await params
   let post = getBlogPosts().find((post) => post.slug === slug)
 
-  if (!post) {
+  if (!post || post.metadata.published === 'false') {
     notFound()
   }
 
@@ -65,7 +72,7 @@ export default async function Blog({ params }) {
             '@type': 'BlogPosting',
             headline: post.metadata.title,
             datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
+            dateModified: post.metadata.lastUpdated,
             description: post.metadata.summary,
             image: post.metadata.image
               ? `${metaData.baseUrl}${post.metadata.image}`
@@ -79,10 +86,15 @@ export default async function Blog({ params }) {
         }}
       />
       <h1 className='title mb-3 font-medium text-2xl'>{post.metadata.title}</h1>
-      <div className='flex justify-between items-center mt-2 mb-8 text-medium'>
+      <div className='flex flex-col mt-2 mb-8 text-medium'>
         <p className='text-sm text-neutral-600 dark:text-neutral-400'>
-          {formatDate(post.metadata.publishedAt)}
+          Published: {formatDate(post.metadata.publishedAt)}
         </p>
+        {post.metadata.lastUpdated && (
+          <p className='text-sm text-neutral-600 dark:text-neutral-400'>
+            Updated: {formatDate(post.metadata.lastUpdated ?? post.metadata.publishedAt)}
+          </p>
+        )}
       </div>
       <article className='prose prose-quoteless prose-neutral dark:prose-invert'>
         <CustomMDX source={post.content} />
