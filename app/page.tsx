@@ -52,6 +52,15 @@ export default function Page() {
         <div className='border-dashed border-t border-[#27272a] my-4' />
         <div>
           <h1 className='mb-4 text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
+            Project License
+          </h1>
+          <p>
+            ・<CustomLink href='/license/mods/durability-helper'>DurabilityHelper</CustomLink>
+          </p>
+        </div>
+        <div className='border-dashed border-t border-[#27272a] my-4' />
+        <div>
+          <h1 className='mb-4 text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
             Support?
           </h1>
           <div className='flex flex-row gap-2'>
