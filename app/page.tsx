@@ -58,29 +58,6 @@ export default function Page() {
             ・<CustomLink href='/license/mods/durability-helper'>DurabilityHelper</CustomLink>
           </p>
         </div>
-        <div className='border-dashed border-t border-[#27272a] my-4' />
-        <div>
-          <h1 className='mb-4 text-2xl font-medium rounded-sm underline decoration-teal-700 decoration-2 underline-offset-4 focus:decoration-transparent dark:decoration-teal-500'>
-            Support?
-          </h1>
-          <div className='flex flex-row gap-2'>
-            <CustomLink
-              href='https://ko-fi.com/nakirium'
-              className='inline-flex items-center gap-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 shadow-md dark:text-neutral-400 text-neutral-600 px-3 py-2 no-underline hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors'
-            >
-              <SiKofi className='w-4 h-4' />
-              <span>Ko-fi</span>
-            </CustomLink>
-
-            <CustomLink
-              href='https://buymeacoffee.com/nakirium'
-              className='inline-flex items-center gap-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 shadow-md dark:text-neutral-400 text-neutral-600 px-3 py-2 no-underline hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors'
-            >
-              <SiBuymeacoffee className='w-4 h-4' />
-              <span>Buy Me a Coffee</span>
-            </CustomLink>
-          </div>
-        </div>
       </div>
     </section>
   )
